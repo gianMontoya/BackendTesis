@@ -47,6 +47,7 @@ public class ProductoController {
             finalJson.put("activo", producto.get().getActivo());
             finalJson.put("insumosProducto", insumosProducto);
         }
+
         return ResponseEntity.ok(finalJson);
     }
 
