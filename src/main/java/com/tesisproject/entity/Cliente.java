@@ -18,6 +18,9 @@ public class Cliente {
     @Column(name = "nombre_cliente", nullable = false, length = 200)
     private String nombreCliente;
 
+    @Column(name = "nombre_contacto", length = 300)
+    private String nombreContacto;
+
     @Column(name = "correo_contacto", nullable = false, length = 100)
     private String correoContacto;
 

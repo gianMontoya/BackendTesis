@@ -18,6 +18,9 @@ public class Proveedor {
     @Column(name = "nombre_proveedor", nullable = false, length = 200)
     private String nombreProveedor;
 
+    @Column(name = "nombre_contacto", length = 300)
+    private String nombreContacto;
+
     @Column(name = "correo_contacto", nullable = false, length = 100)
     private String correoContacto;
 

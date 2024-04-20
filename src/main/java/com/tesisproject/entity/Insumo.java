@@ -3,6 +3,7 @@ package com.tesisproject.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -22,5 +23,9 @@ public class Insumo {
 
     @Column(name = "peso_paquete", nullable = false)
     private Float pesoPaquete;
+
+    @ColumnDefault("1")
+    @Column(name = "activo", nullable = false)
+    private Boolean activo=false;
 
 }

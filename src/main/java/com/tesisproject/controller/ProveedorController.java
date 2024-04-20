@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/proveedores")
+@CrossOrigin
 public class ProveedorController {
     @Autowired
     private ProveedorService proveedorService;
