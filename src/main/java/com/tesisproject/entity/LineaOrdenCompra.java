@@ -14,13 +14,11 @@ public class LineaOrdenCompra {
     @Column(name = "id_linea_orden_compra", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fid_orden_compra", nullable = false)
-    private OrdenCompra fidOrdenCompra;
+    private Long fidOrdenCompra;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fid_insumo", nullable = false)
-    private Insumo fidInsumo;
+    private Long fidInsumo;
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;

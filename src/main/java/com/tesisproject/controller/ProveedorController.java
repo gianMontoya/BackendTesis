@@ -21,6 +21,11 @@ public class ProveedorController {
         return proveedorService.getProveedores();
     }
 
+    @GetMapping("/activos")
+    public List<Proveedor> getProveedoresActivos() {
+        return proveedorService.getProveedoresActivos();
+    }
+
     @GetMapping("{proveedorId}")
     public Optional<Proveedor> getProveedor(@PathVariable("proveedorId") Long id) {
         return proveedorService.getProveedor(id);

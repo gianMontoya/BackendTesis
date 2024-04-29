@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
+@CrossOrigin
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;

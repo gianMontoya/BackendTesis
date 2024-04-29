@@ -54,9 +54,6 @@ public class ProductoController {
     @PostMapping
     public Producto saveOrUpdateProducto(@RequestBody Producto producto) {
         return productoService.saveOrUpdateProducto(producto);
-//        insumoProductoService.saveOrUpdate(insumoProducto);
-//        JSONObject finalJson = new JSONObject();
-//        return ResponseEntity.ok(prod);
     }
 
     @DeleteMapping("{productoId}")

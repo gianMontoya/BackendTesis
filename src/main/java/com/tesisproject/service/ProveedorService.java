@@ -18,6 +18,11 @@ public class ProveedorService {
         return proveedorRepository.findAll();
     }
 
+    public List<Proveedor> getProveedoresActivos() {
+        return proveedorRepository.findAllByActivoIsTrue();
+    }
+
+
     public Optional<Proveedor> getProveedor(Long id) {
         return proveedorRepository.findById(id);
     }

@@ -16,7 +16,7 @@ public class InsumoProductoController {
     private InsumoProductoService insumoProductoService;
 
     @PostMapping
-    public void saveInsumoProducto(@RequestBody List<InsumoProducto> insumosProducto) {
+    public void saveorUpdateInsumoProducto(@RequestBody List<InsumoProducto> insumosProducto) {
         if (!insumosProducto.isEmpty()) {
             Long productId = insumosProducto.getFirst().getFidProducto();
             List<InsumoProducto> actualInsumos=  insumoProductoService.getByProductoId(productId);
@@ -24,7 +24,6 @@ public class InsumoProductoController {
                 insumoProductoService.deleteInsumoProducto(insumoProducto.getId());
             }
         }
-        System.out.println(insumosProducto);
         for (InsumoProducto insumoProducto : insumosProducto) {
             insumoProductoService.saveOrUpdate(insumoProducto);
         }

@@ -17,6 +17,10 @@ public class InsumoService {
         return insumoRepository.findAll();
     }
 
+    public List<Insumo> getInsumosActivos(){
+        return insumoRepository.findAllByActivoIsTrue();
+    }
+
     public Optional<Insumo> getInsumo(Long id){
         return insumoRepository.findById(id);
     }

@@ -21,6 +21,11 @@ public class InsumoController {
         return insumoService.getInsumos();
     }
 
+    @GetMapping("/activos")
+    public List<Insumo> getInsumosActivos() {
+        return insumoService.getInsumosActivos();
+    }
+
     @GetMapping("{insumoId}")
     public Optional<Insumo> getInsumo(@PathVariable("insumoId") Long id) {
         return insumoService.getInsumo(id);
