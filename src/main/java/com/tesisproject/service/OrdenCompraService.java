@@ -62,4 +62,8 @@ public class OrdenCompraService {
         }
         return jsonOrdenCompra;
     }
+
+    public Optional<OrdenCompra> getOrdenCompraById(Long id) {
+        return ordenCompraRepository.findById(id);
+    }
 }
