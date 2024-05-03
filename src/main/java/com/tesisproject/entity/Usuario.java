@@ -32,4 +32,7 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false, length = 200)
     private String contrasena;
 
+    @Column(name = "activo")
+    private Boolean activo = true;
+
 }
