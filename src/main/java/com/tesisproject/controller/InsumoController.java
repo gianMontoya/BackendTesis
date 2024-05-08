@@ -31,6 +31,11 @@ public class InsumoController {
         return insumoService.getInsumo(id);
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public List<Insumo> getInsumosByName(@PathVariable("nombre") String nombre) {
+        return insumoService.getInsumosByNombre(nombre);
+    }
+
     @PostMapping
     public void saveOrUpdateInsumo(@RequestBody Insumo insumo) {
         insumoService.saveOrUpdateInsumo(insumo);

@@ -22,6 +22,10 @@ public class ProductoService {
         return productoRepository.findById(id);
     }
 
+    public List<Producto> getProductoByNombre(String nombre) {
+        return productoRepository.findByNombreProductoContains(nombre);
+    }
+
     public Producto saveOrUpdateProducto(Producto producto) {
         return productoRepository.save(producto);
     }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface InsumoRepository extends JpaRepository<Insumo, Long> {
 
     List<Insumo> findAllByActivoIsTrue();
+
+    List<Insumo> findAllByNombreInsumoContains(String name);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface OrdenVentaRepository extends JpaRepository<OrdenVenta, Long> {
-    List<OrdenVenta> findAllByOrderByIdDesc();
+    List<OrdenVenta> findAllByOrderByFechaCreacionDesc();
 
     List<OrdenVenta> findAllByFechaCreacionBetweenOrderByIdDesc(LocalDate from, LocalDate to);
 }

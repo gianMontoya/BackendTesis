@@ -18,6 +18,10 @@ public class ProveedorService {
         return proveedorRepository.findAll();
     }
 
+    public List<Proveedor> getProveedoresByNombre(String nombre) {
+        return proveedorRepository.findAllByNombreProveedorContains(nombre);
+    }
+
     public List<Proveedor> getProveedoresActivos() {
         return proveedorRepository.findAllByActivoIsTrue();
     }

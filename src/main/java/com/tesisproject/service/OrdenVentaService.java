@@ -28,7 +28,7 @@ public class OrdenVentaService {
     }
 
     public List<JSONObject> getAllOrdenVenta() {
-        List<OrdenVenta> ordenesVenta = ordenVentaRepository.findAllByOrderByIdDesc();
+        List<OrdenVenta> ordenesVenta = ordenVentaRepository.findAllByOrderByFechaCreacionDesc();
         return getJsonAllOrdenVenta(ordenesVenta);
     }
 

@@ -20,6 +20,11 @@ public class ClienteController {
         return clienteService.getClientes();
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public List<Cliente> getInsumosByName(@PathVariable("nombre") String nombre) {
+        return clienteService.getClientesByName(nombre);
+    }
+
     @GetMapping("{clienteId}")
     public Optional<Cliente> getCliente(@PathVariable("clienteId") Long id) {
         return clienteService.getCliente(id);

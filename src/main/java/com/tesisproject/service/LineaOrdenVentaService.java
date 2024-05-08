@@ -17,6 +17,12 @@ public class LineaOrdenVentaService {
         return lineaOrdenVentaRepository.findAllLineaOrdenVentaByFidOrdenVenta(idOrdenVenta);
     }
 
+    public List<LineaOrdenVenta> findAllByIdOrdenVentaAndIdProducto(Long idOrdenVenta, Long idProducto) {
+        return lineaOrdenVentaRepository.findAllLineaOrdenVentaByFidOrdenVentaAndFidProducto(idOrdenVenta, idProducto);
+    }
+
+
+
     public void saveLineaOrdenVenta(LineaOrdenVenta lineaOrdenVenta) {
         lineaOrdenVentaRepository.save(lineaOrdenVenta);
     }

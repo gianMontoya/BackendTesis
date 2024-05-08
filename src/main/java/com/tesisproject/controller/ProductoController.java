@@ -32,6 +32,11 @@ public class ProductoController {
         return productoService.getProductos();
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public List<Producto> getProductosByName(@PathVariable("nombre") String nombre) {
+        return productoService.getProductoByNombre(nombre);
+    }
+
     @GetMapping("{productoId}")
     public ResponseEntity<JSONObject> getProducto(@PathVariable("productoId") Long id) {
         JSONObject finalJson = new JSONObject();

@@ -17,6 +17,10 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
+    public List<Cliente> getClientesByName(String name) {
+        return clienteRepository.findByNombreClienteContains(name);
+    }
+
     public Optional<Cliente> getCliente(Long id) {
         return clienteRepository.findById(id);
     }

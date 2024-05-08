@@ -8,6 +8,7 @@ import com.tesisproject.service.RolService;
 import com.tesisproject.service.UsuarioService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,27 @@ public class UsuarioController {
         this.rolService = rolService;
     }
 
+    @GetMapping("/nombre/{nombre}")
+    public List<JSONObject> getUsuarios(@PathVariable String nombre) {
+        List<JSONObject> listUsuariosJson = new ArrayList<>();
+        List<Usuario> listUsuarios = usuarioService.getUsuariosByNombreOrApellidos(nombre);
+
+        for (Usuario usuario : listUsuarios) {
+            JSONObject usuarioJson = new JSONObject();
+            usuarioJson.put("id", usuario.getId());
+            usuarioJson.put("nombres", usuario.getNombres());
+            usuarioJson.put("apellidoPaterno", usuario.getApellidoPaterno());
+            usuarioJson.put("apellidoMaterno", usuario.getApellidoMaterno());
+            usuarioJson.put("correo", usuario.getCorreo());
+            usuarioJson.put("activo", usuario.getActivo());
+            usuarioJson.put("numeroCelular", usuario.getNumeroCelular());
+            Optional<Permisosxrol> permisoxrol =  permisosRolService.getPermisosxrolByFidUsuario(usuario.getId());
+            Optional<Rol> rol =  rolService.getRol(permisoxrol.orElse(new Permisosxrol()).getFidRol());
+            usuarioJson.put("rol", rol.orElse(new Rol()).getNombreRol());
+            listUsuariosJson.add(usuarioJson);
+        }
+        return listUsuariosJson;
+    }
 
     @GetMapping
     public List<JSONObject> getUsuarios() {
@@ -51,6 +73,22 @@ public class UsuarioController {
         return listUsuariosJson;
     }
 
+    @PostMapping({"/login"})
+    public JSONObject login(@RequestBody JSONObject user) {
+        JSONObject jsonFinal = new JSONObject();
+        Optional<Usuario> usuario = usuarioService.getUsuarioByCorreo((String) user.get("correo"));
+        if (usuario.isPresent()) {
+            String pass = (String) user.get("contrasena");
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            jsonFinal.put("login", bCryptPasswordEncoder.matches(pass, usuario.get().getContrasena()));
+            Optional<Permisosxrol> permisoxrol =  permisosRolService.getPermisosxrolByFidUsuario(usuario.get().getId());
+            jsonFinal.put("idRol", permisoxrol.orElse(new Permisosxrol()).getFidRol());
+        }else{
+            jsonFinal.put("login", false);
+        }
+        return jsonFinal;
+    }
+
     @GetMapping("{usuarioId}")
     public JSONObject getUsuario(@PathVariable("usuarioId") Long id) {
         Optional<Usuario> usuario = usuarioService.getUsuario(id);
@@ -72,14 +110,16 @@ public class UsuarioController {
     @PostMapping
     public void saveOrUpdateUsuario(@RequestBody JSONObject usuarioJson) {
         Usuario usuario = new Usuario();
+
         if (usuarioJson.get("id")!=null) usuario.setId(Long.valueOf((String) usuarioJson.get("id")));
+        else usuario.setContrasena((String) usuarioJson.get("contrasena"));
+
         usuario.setActivo((Boolean) usuarioJson.get("activo"));
         usuario.setNombres((String) usuarioJson.get("nombres"));
         usuario.setApellidoPaterno((String) usuarioJson.get("apellidoPaterno"));
         usuario.setApellidoMaterno((String) usuarioJson.get("apellidoMaterno"));
         usuario.setCorreo((String) usuarioJson.get("correo"));
         usuario.setNumeroCelular((String) usuarioJson.get("numeroCelular"));
-        usuario.setContrasena((String) usuarioJson.get("contrasena"));
 
         usuario = usuarioService.saveOrUpdateUsuario(usuario);
         if (usuarioJson.get("id")!=null){
@@ -94,11 +134,18 @@ public class UsuarioController {
             }
         }else{
             Permisosxrol permiso = new Permisosxrol();
-            permiso.setFidRol((Long) usuarioJson.get("idRol"));
+            permiso.setFidRol((long) Integer.parseInt(String.valueOf(usuarioJson.get("idRol"))));
             permiso.setFidUsuario(usuario.getId());
             permiso.setPermiso("");
             permisosRolService.createOrUpdatePermisosxrol(permiso);
         }
+    }
+
+    @PostMapping("/password")
+    public void changePassword(@RequestBody JSONObject usuarioJson) {
+        Optional<Usuario> usuario = usuarioService.getUsuario(Long.valueOf((Integer)usuarioJson.get("id")));
+        usuario.ifPresent(value -> value.setContrasena((String) usuarioJson.get("contrasena")));
+        usuario.ifPresent(value -> usuarioService.changePassword(value));
     }
 
     @DeleteMapping("{usuarioId}")

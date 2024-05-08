@@ -17,6 +17,10 @@ public class InsumoService {
         return insumoRepository.findAll();
     }
 
+    public List<Insumo> getInsumosByNombre(String nombre){
+        return insumoRepository.findAllByNombreInsumoContains(nombre);
+    }
+
     public List<Insumo> getInsumosActivos(){
         return insumoRepository.findAllByActivoIsTrue();
     }

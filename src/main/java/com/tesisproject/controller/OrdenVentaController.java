@@ -1,14 +1,19 @@
 package com.tesisproject.controller;
 
 import com.tesisproject.entity.Cliente;
+import com.tesisproject.entity.LineaOrdenVenta;
 import com.tesisproject.entity.OrdenVenta;
+import com.tesisproject.entity.Producto;
 import com.tesisproject.service.ClienteService;
+import com.tesisproject.service.LineaOrdenVentaService;
 import com.tesisproject.service.OrdenVentaService;
+import com.tesisproject.service.ProductoService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +25,10 @@ public class OrdenVentaController {
     @Autowired
     private OrdenVentaService ordenVentaService;
     private final ClienteService clienteService;
+    @Autowired
+    private LineaOrdenVentaService lineaOrdenVentaService;
+    @Autowired
+    private ProductoService productoService;
 
     public OrdenVentaController(ClienteService clienteService) {
         this.clienteService = clienteService;
@@ -28,6 +37,49 @@ public class OrdenVentaController {
     @GetMapping
     public List<JSONObject> getOrdenVentas() {
         return ordenVentaService.getAllOrdenVenta();
+    }
+
+    @GetMapping("/estimacion")
+    public List<JSONObject> getOrdenVentasEstimacion() {
+        List<Producto> productos = productoService.getProductos();
+        List<JSONObject> finalJsonList = new ArrayList<>();
+        for (Producto producto : productos) {
+            List<JSONObject> ordenes =  ordenVentaService.getAllOrdenVenta();
+            Integer cantidadTotalMes=0;
+            int mesActualOrden;
+            int anhoActualOrden ;
+            int mesAnteriorOrden  = 0;
+            int anhoAnteriorOrden = 0;
+
+            for(JSONObject orden : ordenes) {
+                mesActualOrden = Integer.parseInt(orden.get("fecha").toString().split("-")[1]);
+                anhoActualOrden = Integer.parseInt(orden.get("fecha").toString().split("-")[0]);
+                if (mesActualOrden<mesAnteriorOrden && anhoActualOrden==anhoAnteriorOrden || anhoActualOrden<anhoAnteriorOrden) {
+                    JSONObject json = new JSONObject();
+                    json.put("idProducto",producto.getId());
+                    json.put("MesVenta",mesAnteriorOrden);
+                    json.put("AnhoVenta",anhoAnteriorOrden);
+                    json.put("Cantidad",cantidadTotalMes);
+                    int estacion = switch (mesAnteriorOrden) {
+                        case 12, 1, 2 -> 1;
+                        case 3, 4, 5 -> 2;
+                        case 6, 7, 8 -> 3;
+                        default -> 4;
+                    };
+                    json.put("Estacion",estacion);
+                    finalJsonList.add(json);
+                    cantidadTotalMes=0;
+                }
+                List<LineaOrdenVenta> lineas= lineaOrdenVentaService.findAllByIdOrdenVentaAndIdProducto((Long) orden.get("id"), producto.getId());
+                for(LineaOrdenVenta linea : lineas) {
+                    cantidadTotalMes += linea.getCantidad();
+                }
+                mesAnteriorOrden  = Integer.parseInt(orden.get("fecha").toString().split("-")[1]);
+                anhoAnteriorOrden = Integer.parseInt(orden.get("fecha").toString().split("-")[0]);
+            }
+
+        }
+        return finalJsonList;
     }
 
     @GetMapping("/{idVenta}")

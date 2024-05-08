@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -29,4 +30,6 @@ public class OrdenVenta {
     @Column(name = "fecha_vencimiento", nullable = false)
     private LocalDate fechaVencimiento;
 
+    @Transient
+    private ArrayList<LineaOrdenVenta> lineasOrdenVenta;
 }

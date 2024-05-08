@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface LineaOrdenVentaRepository extends JpaRepository<LineaOrdenVenta, Long> {
     List<LineaOrdenVenta> findAllLineaOrdenVentaByFidOrdenVenta(Long id);
+    List<LineaOrdenVenta> findAllLineaOrdenVentaByFidOrdenVentaAndFidProducto(Long idOrden, Long idProducto);
+
 }

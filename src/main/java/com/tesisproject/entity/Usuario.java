@@ -29,7 +29,7 @@ public class Usuario {
     @Column(name = "numero_celular", length = 11)
     private String numeroCelular;
 
-    @Column(name = "contrasena", nullable = false, length = 200)
+    @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
     @Column(name = "activo")
