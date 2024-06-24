@@ -4,7 +4,6 @@ import com.tesisproject.entity.ValorInformacionExtraProducto;
 import com.tesisproject.repository.ValorInformacionExtraProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
