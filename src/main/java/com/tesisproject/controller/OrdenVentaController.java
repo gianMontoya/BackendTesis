@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -60,13 +61,6 @@ public class OrdenVentaController {
                     json.put("MesVenta",mesAnteriorOrden);
                     json.put("AnhoVenta",anhoAnteriorOrden);
                     json.put("Cantidad",cantidadTotalMes);
-                    int estacion = switch (mesAnteriorOrden) {
-                        case 12, 1, 2 -> 1;
-                        case 3, 4, 5 -> 2;
-                        case 6, 7, 8 -> 3;
-                        default -> 4;
-                    };
-                    json.put("Estacion",estacion);
                     finalJsonList.add(json);
                     cantidadTotalMes=0;
                 }
@@ -105,5 +99,19 @@ public class OrdenVentaController {
     @PostMapping
     public OrdenVenta saveOrUpdateOrdenVenta(@RequestBody OrdenVenta ordenVenta) {
         return ordenVentaService.saveOrUpdateOrdenVenta(ordenVenta);
+    }
+
+    @GetMapping("/mensual/{idProducto}")
+    public List<JSONObject> getVentasMensualesPorProducto(@PathVariable Long idProducto){
+        List<JSONObject> finalJsonList = new ArrayList<>();
+        List<Map<String, Object>> list =  ordenVentaService.obtenerVentasMensualesPorProducto(idProducto);
+        for (Map<String, Object> value : list){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("anho", value.get("anho"));
+            jsonObject.put("mes", value.get("mes"));
+            jsonObject.put("cantidad_total_vendida", value.get("cantidad_total_vendida"));
+            finalJsonList.add(jsonObject);
+        }
+        return finalJsonList;
     }
 }

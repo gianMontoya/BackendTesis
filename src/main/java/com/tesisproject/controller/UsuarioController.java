@@ -89,7 +89,7 @@ public class UsuarioController {
         return jsonFinal;
     }
 
-    @GetMapping("{usuarioId}")
+    @GetMapping("/{usuarioId}")
     public JSONObject getUsuario(@PathVariable("usuarioId") Long id) {
         Optional<Usuario> usuario = usuarioService.getUsuario(id);
         JSONObject usuarioJson = new JSONObject();

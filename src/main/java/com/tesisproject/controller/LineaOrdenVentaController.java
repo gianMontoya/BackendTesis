@@ -28,7 +28,7 @@ public class LineaOrdenVentaController {
 
 
     @PostMapping
-    public void saveLineaOrdenCompra(@RequestBody List<LineaOrdenVenta> lineasOrdenVenta) {
+    public void saveLineaOrdenVenta(@RequestBody List<LineaOrdenVenta> lineasOrdenVenta) {
         for (LineaOrdenVenta lineaOrdenVenta : lineasOrdenVenta) {
             lineaOrdenVentaService.saveLineaOrdenVenta(lineaOrdenVenta);
         }

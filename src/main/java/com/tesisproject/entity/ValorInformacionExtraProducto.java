@@ -7,24 +7,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "demanda_estimada")
-public class DemandaEstimada {
+@Table(name = "valor_informacion_extra_producto")
+public class ValorInformacionExtraProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_demanda_estimada", nullable = false)
+    @Column(name = "id_valor_informacion_extra_producto", nullable = false)
     private Long id;
+
+    @Column(name = "fid_informacion_extra", nullable = false)
+    private Long fidInformacionExtra;
 
     @Column(name = "fid_producto", nullable = false)
     private Long fidProducto;
 
-    @Column(name = "fid_ejecucion_modelo", nullable = false)
-    private Long fidEjecucionModelo;
-
-    @Column(name = "mes", nullable = false)
-    private Integer mes;
-
-    @Column(name = "anho", nullable = false)
-    private Integer anho;
+    @Column(name = "fid_tiempo", nullable = false)
+    private Long fidTiempo;
 
     @Column(name = "valor", nullable = false)
     private Float valor;

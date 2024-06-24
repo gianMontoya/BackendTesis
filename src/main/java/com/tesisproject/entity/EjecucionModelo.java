@@ -3,9 +3,8 @@ package com.tesisproject.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,11 +16,16 @@ public class EjecucionModelo {
     @Column(name = "id_ejecucion_modelo", nullable = false)
     private Long id;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fecha_ejecucion", nullable = false)
-    private Instant fechaEjecucion;
+    private LocalDateTime fechaEjecucion;
 
-    @Column(name = "valor_precision", nullable = false)
-    private Float valorPrecision;
+    @Column(name = "rmse", nullable = false)
+    private Float rmse;
+
+    @Column(name = "error_promedio", nullable = false)
+    private Float errorPromedio;
+
+    @Column(name = "ajuste_modelo", nullable = false)
+    private Float ajusteModelo;
 
 }
